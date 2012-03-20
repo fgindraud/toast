@@ -9,6 +9,8 @@
 .set MAGIC,		0x1BADB002
 .set CKSUM,		- (MAGIC + FLAGS)
 
+.section .rodata
+
 .align 4
 .long	MAGIC
 .long FLAGS
@@ -16,10 +18,13 @@
 
 ##### Stack #####
 
+.section .bss
+
 .set STACKSIZE,	0x4000
 .comm stack, STACKSIZE, 32
 
 ##### Start #####
+.section .text
 
 entry_point:
 	movl $(stack + STACKSIZE), %esp # prepare stack
