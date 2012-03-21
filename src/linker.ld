@@ -4,32 +4,40 @@ OUTPUT_FORMAT(elf32-i386)
 
 STARTUP(loader.o)
 
-/* Learn about linker script */
+pagesize = 0x1000;
+kernel_pos = 0x100000;
 
 SECTIONS
 {
-	. = 0x100000;
+	. = kernel_pos;
 
-	.text ALIGN(0x1000) :
+	.text ALIGN (pagesize) :
 	{
 		*(.text)
+		. = ALIGN (pagesize);
 	}
 
-	.rodata ALIGN(0x1000) :
+	.rodata ALIGN (pagesize) :
 	{
-		*(.rodata*)
+		*(.rodata)
+		. = ALIGN (pagesize);
 	}
 
-	.data ALIGN(0x1000) :
+	.data ALIGN (pagesize) :
 	{
 		*(.data)
+		. = ALIGN (pagesize);
 	}
 
-	.bss :
+	.bss ALIGN (pagesize) :
 	{
-		sbss = .;
-		*(COMMON)
 		*(.bss)
-		ebss = .;
+		. = ALIGN (pagesize);
+	}
+
+	/DISCARD/ :
+	{
+		*(.comment)
+		*(.eh_frame)
 	}
 }
