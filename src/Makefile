@@ -11,7 +11,8 @@ LDFLAGS	=	-nostdlib -fno-builtin -nostartfiles -nodefaultlibs
 
 ################
 
-OBJ=kernel.o
+LINK_OBJ	=	kernel.o
+OBJ	=	$(LINK_OBJ) loader.o
 
 ################
 
@@ -23,8 +24,8 @@ kernel.o: kernel.c
 loader.o: loader.s
 	$(AS) -o $@ $<
 
-kernel.bin: $(OBJ) linker.ld loader.o
-	$(LD) -T linker.ld -o $@ $(OBJ) 
+kernel.bin: $(OBJ) linker.ld
+	$(LD) -T linker.ld -o $@ $(LINK_OBJ) 
 
 ###############
 
