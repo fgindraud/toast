@@ -1,6 +1,6 @@
 .PHONY: all clean mrproper
 
-KERNEL	=	../src/kernel.bin
+KERNEL	=	../../src/kernel.bin
 BLD	=	../bootloader/bootloader.img
 
 IMG	=	kernel.img

@@ -1,24 +1,21 @@
-.PHONY: all kernel bootloader img simul
+.PHONY: all kernel bochs qemu
 
-DIRS	=	img src bootloader bochs
+DIRS	=	src bochs qemu
 
 ##########
 
-all: img
-
-img: kernel bootloader
-	make -C img
-
-bootloader:
-	make -C bootloader
+all: kernel
 
 kernel:
 	make -C src
 
 #########
 
-simul: img
-	make -C bochs
+bochs: kernel
+	make -C $@
+
+qemu: kernel
+	make -C $@
 
 #########
 
