@@ -1,5 +1,9 @@
 ENTRY(entry_point)
 
+OUTPUT_FORMAT(elf32-i386)
+
+STARTUP(loader.o)
+
 /* Learn about linker script */
 
 SECTIONS

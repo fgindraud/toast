@@ -1,0 +1,24 @@
+#!/bin/bash
+
+sizeof () {
+	stat --printf='%s\n' $1
+}
+
+o_file=$1
+bld_file=$2
+kernel_file=$3
+
+block_size=512
+
+bld_size=`sizeof $bld_file`
+kernel_size=`sizeof $kernel_file`
+
+kernel_start_offset_block=$(( (bld_size / 512) + 1 ))
+kernel_size_block=$(( (kernel_size / 512) + 1 ))
+kernel_start_offset_bytes=$(( kernel_start_offset_block * 512 ))
+pad_size=$(( kernel_start_offset_bytes - bld_size ))
+
+dd if=/dev/zero of=$o_file bs=1 count=$pad_size &>/dev/null
+
+echo "Kernel : $kernel_start_offset_block+$kernel_size_block"
+

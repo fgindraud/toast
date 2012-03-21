@@ -9,7 +9,7 @@
 .set MAGIC,		0x1BADB002
 .set CKSUM,		- (MAGIC + FLAGS)
 
-.section .rodata
+.section .text
 
 .align 4
 .long	MAGIC

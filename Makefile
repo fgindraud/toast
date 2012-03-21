@@ -1,29 +1,30 @@
-.PHONY: all kernel bootloader
+.PHONY: all kernel bootloader img simul
 
-KER_D	=	src
-BLD_D	=	bootloader
-DIRS	=	$(KER_D) $(BLD_D)
-
-IMG	=	kernel.img
+DIRS	=	img src bootloader bochs
 
 ##########
 
-all: $(IMG)
+all: img
 
-$(IMG): kernel bootloader
-	dd if=/dev/zero of=pad bs=1 count=750
-	cat $(BLD_D)/bootloader.img pad $(KER_D)/kernel.bin > $(IMG)
-	rm -f pad
+img: kernel bootloader
+	make -C img
 
 bootloader:
-	make -C $(BLD_D)
+	make -C bootloader
 
 kernel:
-	make -C $(KER_D)
+	make -C src
 
 #########
 
-simul: $(IMG)
+simul: img
 	make -C bochs
 
 #########
+
+clean:
+	for d in $(DIRS); do make -C $$d clean; done
+
+mrproper:
+	for d in $(DIRS); do make -C $$d mrproper; done
+
