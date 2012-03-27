@@ -14,25 +14,17 @@ SECTIONS
 	.text ALIGN (pagesize) :
 	{
 		*(.text)
-		. = ALIGN (pagesize);
-	}
-
-	.rodata ALIGN (pagesize) :
-	{
 		*(.rodata)
-		. = ALIGN (pagesize);
 	}
 
 	.data ALIGN (pagesize) :
 	{
 		*(.data)
-		. = ALIGN (pagesize);
 	}
 
 	.bss ALIGN (pagesize) :
 	{
 		*(.bss)
-		. = ALIGN (pagesize);
 	}
 
 	/DISCARD/ :

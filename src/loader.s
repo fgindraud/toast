@@ -3,37 +3,37 @@
 ##### Grub multiboot handling #####
 # Should check multiboot spec
 
-.set ALIGN,		1 << 0
-.set MEMINFO,	1 << 1
-.set FLAGS,		ALIGN | MEMINFO
-.set MAGIC,		0x1BADB002
-.set CKSUM,		- (MAGIC + FLAGS)
+.set MB_ALIGN,		1 << 0
+.set MB_MEMINFO,	1 << 1
+.set MB_FLAGS,		MB_ALIGN | MB_MEMINFO
+.set MB_MAGIC,		0x1BADB002
+.set MB_CKSUM,		- (MB_MAGIC + MB_FLAGS)
 
 .section .text
 
 .align 4
-.long	MAGIC
-.long FLAGS
-.long CKSUM
+.long	MB_MAGIC
+.long MB_FLAGS
+.long MB_CKSUM
 
 ##### Stack #####
 
 .section .bss
 
-.set STACKSIZE,	0x4000
-.comm stack, STACKSIZE, 32
+.set STACK_SIZE,	0x4000
+.comm stack, STACK_SIZE, 32
 
 ##### Start #####
 .section .text
 
 entry_point:
-	movl $(stack + STACKSIZE), %esp # prepare stack
+	movl $(stack + STACK_SIZE), %esp # prepare stack
 	push %eax	# multiboot magic number should be here
 	push %ebx	# multiboot structure pointer
 
 	call kmain	# kernel
 	
-	cli	# dont know, check IA32
+	cli	# disable interrupts
 stop:
-	hlt	# same
+	hlt
 	jmp stop
