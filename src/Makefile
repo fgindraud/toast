@@ -2,7 +2,7 @@ CC	=	i686-elf-gcc
 LD	=	i686-elf-ld
 AS	=	i686-elf-as
 
-CFLAGS	=	-Wall -Wextra -Werror
+CFLAGS	=	-Wall -Wextra -Werror -I.
 LDFLAGS	=	-nostdlib -fno-builtin -nostartfiles -nodefaultlibs
 
 ################
@@ -11,14 +11,14 @@ LDFLAGS	=	-nostdlib -fno-builtin -nostartfiles -nodefaultlibs
 
 ################
 
-LINK_OBJ	=	kernel.o
+LINK_OBJ	=	kernel.o string.o video.o
 OBJ	=	$(LINK_OBJ) loader.o
 
 ################
 
 all: kernel.bin
 
-kernel.o: kernel.c
+%.o: %.c $(wildcard *.h)
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ -c $<
 
 loader.o: loader.s
